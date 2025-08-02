@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { MONGO_URI } = require('./Secrets'); // ✅ Load from Secrets.js
+require('dotenv').config(); // ✅ Load .env variables
 
 const app = express();
 
@@ -11,7 +11,10 @@ app.use(express.json());
 const noteRoutes = require('./routes/notes');
 app.use('/api/notes', noteRoutes);
 
-mongoose.connect(MONGO_URI, {
+// ✅ Get Mongo URI from environment variables
+const mongoURI = process.env.MONGO_URI;
+
+mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
